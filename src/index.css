@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 @layer base {
   :root {
@@ -10,7 +8,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 262 80% 75%;
+    --primary: 162 80% 75%;
     --primary-foreground: 210 40% 98%;
     --secondary: 262 25% 54%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -27,14 +25,14 @@
   }
 }
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
   }
-}
+} */
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
