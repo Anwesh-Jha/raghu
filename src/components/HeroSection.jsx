@@ -40,7 +40,7 @@ const HeroSection = () => {
           title: "Success",
           description: "You have been logged out",
         });
-      } catch (error: any) {
+      } catch (error) {
         toast({
           title: "Error",
           description: error.message,
@@ -112,15 +112,6 @@ const HeroSection = () => {
           >
             First Aid
           </Button>
-          {session?.user && (
-            <Button
-              className="text-lg px-8 py-6"
-              onClick={() => navigate('/admin')}
-              variant="outline"
-            >
-              Admin Dashboard
-            </Button>
-          )}
         </div>
       </div>
     </section>

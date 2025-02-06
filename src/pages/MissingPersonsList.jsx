@@ -7,39 +7,10 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/components/AuthProvider";
 import PersonCard from "@/components/missing-persons/PersonCard";
 
-interface Profile {
-  username: string | null;
-}
-
-interface Comment {
-  id: string;
-  content: string;
-  created_at: string;
-  user_id: string;
-  image_url: string | null;
-  likes: number | null;
-  user_likes: string[] | null;
-  profiles: Profile;
-}
-
-interface MissingPerson {
-  id: string;
-  name: string;
-  last_seen_location: string;
-  age: number | null;
-  gender: string | null;
-  identifying_features: string | null;
-  image_url: string | null;
-  status: string;
-  reporter_contact: string | null;
-  reporter_id: string | null;
-  created_at: string;
-}
-
 const MissingPersonsList = () => {
-  const [missingPersons, setMissingPersons] = useState<MissingPerson[]>([]);
+  const [missingPersons, setMissingPersons] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [comments, setComments] = useState<Record<string, Comment[]>>({});
+  const [comments, setComments] = useState({});
   const navigate = useNavigate();
   const { toast } = useToast();
   const { session } = useAuth();
@@ -75,15 +46,12 @@ const MissingPersonsList = () => {
             .order('created_at', { ascending: true });
 
           if (commentError) throw commentError;
-          return { 
-            personId: person.id, 
-            comments: commentData as unknown as Comment[] 
-          };
+          return { personId: person.id, comments: commentData };
         });
 
         if (commentsPromises) {
           const commentsResults = await Promise.all(commentsPromises);
-          const commentsMap: Record<string, Comment[]> = {};
+          const commentsMap = {};
           commentsResults.forEach(({ personId, comments }) => {
             commentsMap[personId] = comments;
           });
@@ -104,7 +72,7 @@ const MissingPersonsList = () => {
     fetchMissingPersons();
   }, [toast]);
 
-  const handleStatusUpdate = async (personId: string, newStatus: string) => {
+  const handleStatusUpdate = async (personId, newStatus) => {
     try {
       const { error } = await supabase
         .from('missing_persons')
@@ -133,7 +101,7 @@ const MissingPersonsList = () => {
     }
   };
 
-  const handleDelete = async (personId: string) => {
+  const handleDelete = async (personId) => {
     try {
       const { error } = await supabase
         .from('missing_persons')
@@ -157,7 +125,7 @@ const MissingPersonsList = () => {
     }
   };
 
-  const handleCommentAdded = (personId: string, newComment: Comment) => {
+  const handleCommentAdded = (personId, newComment) => {
     setComments(prev => ({
       ...prev,
       [personId]: [...(prev[personId] || []), newComment]

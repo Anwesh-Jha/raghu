@@ -16,7 +16,9 @@ export type Database = {
           damage_report_id: string | null
           id: string
           image_url: string | null
+          likes: number | null
           user_id: string | null
+          user_likes: string[] | null
         }
         Insert: {
           content: string
@@ -24,7 +26,9 @@ export type Database = {
           damage_report_id?: string | null
           id?: string
           image_url?: string | null
+          likes?: number | null
           user_id?: string | null
+          user_likes?: string[] | null
         }
         Update: {
           content?: string
@@ -32,7 +36,9 @@ export type Database = {
           damage_report_id?: string | null
           id?: string
           image_url?: string | null
+          likes?: number | null
           user_id?: string | null
+          user_likes?: string[] | null
         }
         Relationships: [
           {
@@ -104,24 +110,30 @@ export type Database = {
           created_at: string
           id: string
           image_url: string | null
+          likes: number | null
           missing_person_id: string | null
           user_id: string | null
+          user_likes: string[] | null
         }
         Insert: {
           content: string
           created_at?: string
           id?: string
           image_url?: string | null
+          likes?: number | null
           missing_person_id?: string | null
           user_id?: string | null
+          user_likes?: string[] | null
         }
         Update: {
           content?: string
           created_at?: string
           id?: string
           image_url?: string | null
+          likes?: number | null
           missing_person_id?: string | null
           user_id?: string | null
+          user_likes?: string[] | null
         }
         Relationships: [
           {
@@ -129,6 +141,13 @@ export type Database = {
             columns: ["missing_person_id"]
             isOneToOne: false
             referencedRelation: "missing_persons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "missing_person_comments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -144,6 +163,7 @@ export type Database = {
           last_seen_location: string
           name: string
           reporter_contact: string | null
+          reporter_id: string | null
           status: string | null
         }
         Insert: {
@@ -156,6 +176,7 @@ export type Database = {
           last_seen_location: string
           name: string
           reporter_contact?: string | null
+          reporter_id?: string | null
           status?: string | null
         }
         Update: {
@@ -168,6 +189,7 @@ export type Database = {
           last_seen_location?: string
           name?: string
           reporter_contact?: string | null
+          reporter_id?: string | null
           status?: string | null
         }
         Relationships: []
@@ -220,27 +242,6 @@ export type Database = {
         }
         Relationships: []
       }
-      user_roles: {
-        Row: {
-          created_at: string
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
@@ -249,7 +250,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      app_role: "admin" | "normal" | "organization"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
